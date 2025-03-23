@@ -1,0 +1,22 @@
+name: Check Merge Conflicts
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  check-conflicts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for merge conflicts
+        run: |
+          git fetch origin ${{ github.event.pull_request.base.ref }}
+          git merge --no-commit --no-ff origin/${{ github.event.pull_request.base.ref }} || (
+            echo "::error::❌ A PR tem conflitos e precisa ser corrigida antes do merge."
+            exit 1
+          )
