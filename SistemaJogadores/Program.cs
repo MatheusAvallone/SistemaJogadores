@@ -1,6 +1,8 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using SistemaJogadores.Models;
-using SistemaJogadores.Services;
+using SistemaJogadores.Api.MapEndpoints;
+using SistemaJogadores.Api.Repository.Context;
+using SistemaJogadores.Api.Settings;
 
 #region [CONFIGURAÇÃO]
 
@@ -18,7 +20,17 @@ builder.Services.AddSwaggerGen(options =>
 });
 builder.Services.AddOpenApi();
 
+builder.Services.AddDbContext<SistemasJogadoresContext>(options =>
+options.UseInMemoryDatabase("JogadoresDB"));
+
+builder.Services.AddAuthenticationConfig();
+builder.Services.AddServicesDI();
+builder.Services.AddRepositoryDI();
+
 var app = builder.Build();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapOpenApi();
 app.UseSwagger();
@@ -27,49 +39,11 @@ app.UseSwaggerUI(options =>
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "Minha API v1");
 });
 
+app.MapAuthEndpoint();
+app.MapJogadoresEndpoint();
+
 app.UseHttpsRedirection();
 
 #endregion
-
-app.MapGet("/listar-jogadores", () =>
-{
-    var jogadoresDb = new JogadorService().ExibirJogadores();
-
-    return Results.Ok(jogadoresDb);
-})
-.WithName("listar-jogador")
-.WithOpenApi();
-
-app.MapPost("/cadastrar-jogador", (JogadorModel model) =>
-{
-    if (model == null) return Results.BadRequest("model null");
-
-    var novoJogadorDb = new JogadorService().CadastrarJogador(model);
-
-    return Results.Ok(novoJogadorDb);
-})
-.WithName("cadastrar-jogador")
-.WithOpenApi();
-
-
-app.MapPut("/editar-jogador", (JogadorModel model) =>
-{
-    if (model == null) return Results.BadRequest("model null");
-
-    var jogadorEditadoDb = new JogadorService().CadastrarJogador(model);
-
-    return Results.Ok(jogadorEditadoDb);
-})
-.WithName("editar-jogador")
-.WithOpenApi();
-
-app.MapDelete("/remover-jogador", (int idJogador) =>
-{
-    new JogadorService().RemoverJogador(idJogador);
-
-    return Results.Ok($"Jogador: {idJogador} removido com sucesso.");
-})
-.WithName("remover-jogador")
-.WithOpenApi();
 
 await app.RunAsync();
