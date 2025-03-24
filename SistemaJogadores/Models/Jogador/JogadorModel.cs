@@ -1,4 +1,4 @@
-﻿namespace SistemaJogadores.Models;
+﻿namespace SistemaJogadores.Api.Models.Jogador;
 
 public class JogadorModel(string nome, int idade, string nacionalidade, string posicao, string clube, double altura, double peso,
                      int numerocamisa, string pe)

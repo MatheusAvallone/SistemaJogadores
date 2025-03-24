@@ -1,26 +1,34 @@
-﻿using SistemaJogadores.Models;
-using SistemaJogadores.Repository.Entities;
+﻿using SistemaJogadores.Api.Models.Jogador;
+using SistemaJogadores.Api.Repository.Interfaces;
+using SistemaJogadores.Api.Services.Interfaces;
 
-namespace SistemaJogadores.Services;
+namespace SistemaJogadores.Api.Services;
 
-public class JogadorService
+public class JogadorService : IJogadorService
 {
-    public List<JogadorEntity> ExibirJogadores()
+    private readonly IJogadoresRepository _jogadoresRepository;
+
+    public JogadorService(IJogadoresRepository jogadoresRepository)
+    {
+        _jogadoresRepository = jogadoresRepository;
+    }
+
+    public async Task<List<JogadorModel>> ExibirJogadores()
     {
         throw new NotImplementedException("TODO: Implementar exibição de jogadores.");
     }
 
-    public JogadorEntity CadastrarJogador(JogadorModel jogadores)
+    public async Task<JogadorModel> CadastrarJogador(JogadorModel jogadores)
     {
         throw new NotImplementedException("TODO: Implementar cadastro de jogadores.");
     }
 
-    public void EditarJogador(JogadorModel jogadores)
+    public async Task EditarJogador(JogadorModel jogadores)
     {
         throw new NotImplementedException("TODO: Implementar edição de jogadores.");
     }
 
-    public void RemoverJogador(int idJogador)
+    public async Task RemoverJogador(int idJogador)
     {
         throw new NotImplementedException("TODO: Implementar remoção de jogadores.");
     }

@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SistemaJogadores", "SistemaJogadores.csproj", "{50E08FC8-EE8F-E2D7-5B92-224335C7BD75}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SistemaJogadores.Api", "SistemaJogadores.Api.csproj", "{50E08FC8-EE8F-E2D7-5B92-224335C7BD75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SistemaJogadores.Test", "..\SistemaJogadores.Test\SistemaJogadores.Test.csproj", "{AE627F98-DA78-491B-98A6-8418C38BE231}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{50E08FC8-EE8F-E2D7-5B92-224335C7BD75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50E08FC8-EE8F-E2D7-5B92-224335C7BD75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50E08FC8-EE8F-E2D7-5B92-224335C7BD75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE627F98-DA78-491B-98A6-8418C38BE231}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE627F98-DA78-491B-98A6-8418C38BE231}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE627F98-DA78-491B-98A6-8418C38BE231}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE627F98-DA78-491B-98A6-8418C38BE231}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
