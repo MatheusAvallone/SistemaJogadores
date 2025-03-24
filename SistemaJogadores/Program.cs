@@ -1,23 +1,45 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using SistemaJogadores.Api.MapEndpoints;
 using SistemaJogadores.Api.Repository.Context;
 using SistemaJogadores.Api.Settings;
 
-#region [CONFIGURA��O]
+#region [CONFIGURAÇÃO]
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc("v1", new OpenApiInfo
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Minha API", Version = "v1" });
+
+    // 🔐 Configuração para suporte a autenticação JWT no Swagger
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        Title = "Minha API",
-        Version = "v1",
-        Description = "Uma API simples com Minimal API e Swagger"
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Digite seu token JWT no formato: Bearer {seu_token}"
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
     });
 });
+
 builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<SistemasJogadoresContext>(options =>
