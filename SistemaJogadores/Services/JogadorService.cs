@@ -1,4 +1,8 @@
-﻿using SistemaJogadores.Api.Models.Jogador;
+﻿using System.Net;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using SistemaJogadores.Api.Models.Jogador;
+using SistemaJogadores.Api.Repository.Entities;
 using SistemaJogadores.Api.Repository.Interfaces;
 using SistemaJogadores.Api.Services.Interfaces;
 
@@ -12,24 +16,98 @@ public class JogadorService : IJogadorService
     {
         _jogadoresRepository = jogadoresRepository;
     }
-
     public async Task<List<JogadorModel>> ExibirJogadores()
     {
-        throw new NotImplementedException("TODO: Implementar exibição de jogadores.");
-    }
 
-    public async Task<JogadorModel> CadastrarJogador(JogadorModel jogadores)
-    {
-        throw new NotImplementedException("TODO: Implementar cadastro de jogadores.");
-    }
+        var jogadoresEntity = await _jogadoresRepository.GetAllAsync();
 
-    public async Task EditarJogador(JogadorModel jogadores)
+        var jogadoresModel = new List<JogadorModel>();
+
+        foreach (var jogadorEntity in jogadoresEntity)
+        {
+            JogadorModel jogadorModel = new JogadorModel
+            {
+                Id = jogadorEntity.Id,
+                Nome = jogadorEntity.Nome,
+                Idade = jogadorEntity.Idade,
+                Nacionalidade = jogadorEntity.Nacionalidade,
+                Posicao = jogadorEntity.Posicao,
+                Clube = jogadorEntity.Clube,
+                Altura = jogadorEntity.Altura,
+                Peso = jogadorEntity.Peso,
+                NumeroCamisa = jogadorEntity.NumeroCamisa,
+                Pe = jogadorEntity.Pe,
+            };
+
+            jogadoresModel.Add(jogadorModel);
+ 
+        }
+            return jogadoresModel;
+    }
+    public async Task<JogadorModel> CadastrarJogador(JogadorModel model)
     {
-        throw new NotImplementedException("TODO: Implementar edição de jogadores.");
+        var jogadorEntity = new JogadorEntity
+        {
+            Id = (int) model.Id,
+            Nome = model.Nome,
+            Idade = model.Idade,
+            Nacionalidade = model.Nacionalidade,
+            Posicao = model.Posicao,
+            Clube = model.Clube,
+            Altura = model.Altura,
+            Peso = model.Peso,
+            NumeroCamisa = model.NumeroCamisa,
+            Pe = model.Pe,
+        };
+
+        await _jogadoresRepository.AddAsync(jogadorEntity);
+
+        return model; 
+        
+    }
+    public async Task<JogadorModel> EditarJogador(JogadorModel jogadores)
+    {
+        var jogadorEntity = await _jogadoresRepository.GetByIdAsync(jogadores.Id);
+
+        if (jogadorEntity== null)
+        {
+            throw new Exception("Jogador não encontrado.");
+        }
+
+        jogadorEntity.Nome = jogadores.Nome;
+        jogadorEntity.Idade = jogadores.Idade;
+        jogadorEntity.Nacionalidade = jogadores.Nacionalidade;
+        jogadorEntity.Posicao = jogadores.Posicao;
+        jogadorEntity.Clube = jogadores.Clube;
+        jogadorEntity.Altura = jogadores.Altura;
+        jogadorEntity.NumeroCamisa = jogadores.NumeroCamisa;
+        jogadorEntity.Pe = jogadores.Pe;
+
+        await _jogadoresRepository.UpdateAsync(jogadorEntity);
+
+        jogadores.Mensagem = " Jogador alterado com sucesso. ";
+
+        return jogadores;
+            
     }
 
     public async Task RemoverJogador(int idJogador)
     {
-        throw new NotImplementedException("TODO: Implementar remoção de jogadores.");
+       var jogador = await _jogadoresRepository.GetByIdAsync(idJogador);
+
+        if (jogador == null) 
+        if (jogador != null)
+
+        {
+            await _jogadoresRepository.DeleteAsync(jogador);
+        }
+        else 
+        {
+            throw new Exception(" jogador não encontrado.");
+        }
+
+        await _jogadoresRepository.DeleteAsync(jogador);
+
     }
+
 }

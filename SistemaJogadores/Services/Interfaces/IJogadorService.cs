@@ -6,6 +6,6 @@ public interface IJogadorService
 {
     Task<List<JogadorModel>> ExibirJogadores();
     Task<JogadorModel> CadastrarJogador(JogadorModel jogadores);
-    Task EditarJogador(JogadorModel jogadores);
+    Task<JogadorModel> EditarJogador(JogadorModel jogadores);
     Task RemoverJogador(int idJogador);
 }

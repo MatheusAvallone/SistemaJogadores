@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SistemaJogadores.Api.Models.Jogador;
 using SistemaJogadores.Api.Services.Interfaces;
 
@@ -17,9 +18,9 @@ public static class JogadoresController
         .WithName("listar-jogador")
         .WithOpenApi();
 
-        app.MapPost("/cadastrar-jogador", [Authorize] async(IJogadorService _jogadorService, JogadorModel model) =>
+        app.MapPost("/cadastrar-jogador", [Authorize] async(IJogadorService _jogadorService, [FromBody] JogadorModel model) =>
         {
-            if (model == null) return Results.BadRequest("model null");
+                if (model == null) return Results.BadRequest("model null");
 
             var novoJogadorDb = await _jogadorService.CadastrarJogador(model);
 
@@ -29,11 +30,11 @@ public static class JogadoresController
         .WithOpenApi();
 
 
-        app.MapPut("/editar-jogador", [Authorize] async (IJogadorService _jogadorService, JogadorModel model) =>
+        app.MapPut("/editar-jogador", [Authorize] async (IJogadorService _jogadorService, [FromBody] JogadorModel model) =>
         {
             if (model == null) return Results.BadRequest("model null");
 
-            var jogadorEditadoDb = await _jogadorService.CadastrarJogador(model);
+            var jogadorEditadoDb = await _jogadorService.EditarJogador(model);
 
             return Results.Ok(jogadorEditadoDb);
         })

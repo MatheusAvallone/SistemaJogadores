@@ -5,4 +5,5 @@ namespace SistemaJogadores.Api.Repository.Interfaces;
 
 public interface IJogadoresRepository : IBaseRepository<JogadorEntity>
 {
+    
 }
