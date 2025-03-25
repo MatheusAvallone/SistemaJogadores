@@ -2,8 +2,7 @@
 
 namespace SistemaJogadores.Api.Models.Jogador;
 
-public class JogadorModel:BaseModel
-
+public class JogadorModel : BaseModel
 {
     public JogadorModel(string nome, int idade, string nacionalidade, string posicao, string clube, double altura, double peso,
                         int numeroCamisa, string pe)
@@ -35,7 +34,7 @@ public class JogadorModel:BaseModel
     }
     public JogadorModel()
     {
-            
+
     }
     public string Nome { get; set; }
     public int Idade { get; set; }

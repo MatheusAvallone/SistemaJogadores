@@ -7,4 +7,6 @@ namespace SistemaJogadores.Api.Repository;
 
 public class JogadoresRepository(SistemasJogadoresContext context) : BaseRepository<JogadorEntity>(context), IJogadoresRepository
 {
+
+
 }

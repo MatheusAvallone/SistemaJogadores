@@ -8,4 +8,5 @@ namespace SistemaJogadores.Api.Repository;
 public class UserRepository(SistemasJogadoresContext context) : BaseRepository<UserEntity>(context), IUserRepository
 {
 
+
 }
