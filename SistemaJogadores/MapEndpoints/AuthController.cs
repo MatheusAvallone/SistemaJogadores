@@ -29,13 +29,15 @@ public static class AuthController
         {
             if (model == null) return Results.BadRequest("model null");
 
-            var userAuthenticated = await _authService.Authenticate(model);
-            if (userAuthenticated.Sucesso)
+            var userAuthenticatedDynamic = await _authService.Authenticate(model);
+            if (userAuthenticatedDynamic != null)
             {
+                var userAuthenticated = userAuthenticatedDynamic as UserAuthenticationModel;
                 return Results.Ok(userAuthenticated);
             }
             else
             {
+                var userAuthenticated = userAuthenticatedDynamic as UserModel;
                 return Results.BadRequest(userAuthenticated);
             }
         })

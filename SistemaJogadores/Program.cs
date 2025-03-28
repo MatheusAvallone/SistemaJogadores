@@ -40,6 +40,18 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:8000") // 🟢 Substitua pelo domínio do frontend
+                  .AllowCredentials() 
+                  .AllowAnyMethod()
+                  .AllowAnyHeader();
+        });
+});
+
 builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<SistemasJogadoresContext>(options =>
@@ -53,6 +65,8 @@ var app = builder.Build();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseCors("AllowFrontend"); // Aplica a política de CORS
 
 app.MapOpenApi();
 app.UseSwagger();
